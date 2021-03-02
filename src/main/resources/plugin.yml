@@ -58,10 +58,6 @@ commands:
     description: tempban someone
     permission: fcmd.ban
     usage: /<command> <target> <time> [<reason>]
-  untempban:
-    description: untempban someone
-    permission: fcmd.ban
-    usage: /<command> <target>
   unban:
     description: unban someone
     permission: fcmd.ban

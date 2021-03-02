@@ -220,7 +220,7 @@ public class acmd extends JavaPlugin {
                 LangTemplate template = new LangTemplate()
                     .add("speed", String.valueOf(player.getFlySpeed()*10));
 
-                sendMessage(sender, "flyspeed." + key, false);
+                sendMessage(sender, "flyspeed." + key, template, false);
                 //sender.sendMessage(LangTemplate.escapeColors(lang.string("flyspeed." + key, template)));
             }
 
@@ -308,46 +308,14 @@ public class acmd extends JavaPlugin {
         });
 
         new CommandMain(getCommand("tempban"), (CommandSender sender, ArrayList<String> args) -> {
-
-            PlayerLookupData data = playerParse(null, args, false, true);
-
-            if (data.players.size() == 0)
-                sendMessage(sender, "general.missingplayer");
-            else {
-
-                OfflinePlayer mod = null;
-
-                if (sender instanceof OfflinePlayer)
-                    mod = (OfflinePlayer) sender;
-
-                OfflinePlayer target = data.players.get(0);
-
-                if (data.args.size() > 0) {
-
-                    long duration = timeParse(data.args.get(0));
-                    String reason = String.join(" ", data.args.subList(1, data.args.size()));
-
-                    ban.addBan(duration, (OfflinePlayer) mod, (OfflinePlayer) target, reason);
-
-                    LangTemplate template = new LangTemplate()
-                        .add("username", target.getName())
-                        .add("duration", timeToString(duration));
-
-                    sendMessage(sender, "ban.tempban", template, true);
-                    //sender.sendMessage(LangTemplate.escapeColors(lang.string("ban.tempban", template)));
-
-                } else {
-                    //perma ban later
-                    sendMessage(sender, "general.missingargs", false);
-                    //sender.sendMessage(LangTemplate.escapeColors(lang.string("general.missingargs")));
-                }
-
-            }
-
-            return true;
+            return ban.execute(sender, args, true);
         }).autocomplete(new dev.zomo.mcpremium.dataType.CommandtabCompleteNameInterface());
 
-        new CommandMain(getCommand("untempban"), (CommandSender sender, ArrayList<String> args) -> {
+        new CommandMain(getCommand("ban"), (CommandSender sender, ArrayList<String> args) -> {
+            return ban.execute(sender, args, false);
+        }).autocomplete(new dev.zomo.mcpremium.dataType.CommandtabCompleteNameInterface());
+
+        new CommandMain(getCommand("unban"), (CommandSender sender, ArrayList<String> args) -> {
 
             PlayerLookupData data = playerParse(null, args, false, true);
 
@@ -402,7 +370,7 @@ public class acmd extends JavaPlugin {
 
     }
 
-    public void sendMessage(CommandSender sender, String id, LangTemplate template, boolean shouldLog) {
+    public static void sendMessage(CommandSender sender, String id, LangTemplate template, boolean shouldLog) {
         if (shouldLog) {
             String modname = "CONSOLE";
             if (sender instanceof Player)
@@ -413,15 +381,15 @@ public class acmd extends JavaPlugin {
         sender.sendMessage(LangTemplate.escapeColors(lang.string(id, template)));
     }
 
-    public void sendMessage(CommandSender sender, String id, LangTemplate template) {
+    public static void sendMessage(CommandSender sender, String id, LangTemplate template) {
         sendMessage(sender, id, template, false);
     }
 
-    public void sendMessage(CommandSender sender, String id, boolean shouldLog) {
+    public static void sendMessage(CommandSender sender, String id, boolean shouldLog) {
         sendMessage(sender, id, new LangTemplate(), shouldLog);
     }
 
-    public void sendMessage(CommandSender sender, String id) {
+    public static void sendMessage(CommandSender sender, String id) {
         sendMessage(sender, id, false);
     }
 

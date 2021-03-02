@@ -39,8 +39,8 @@ admin:
   disable: "Disabled Admin mode"
 
 ban:
-  tempban: "Banned {username} for {duration}"
-  ban: "Banned {username} permanently"
+  temp: "Banned {username} for {duration}"
+  perma: "Banned {username} permanently"
   unban: "Unbanned {username}"
   notbanned: "{username} is not banned"
   baninfo: "Target: {target}\nMod: {mod}\nFrom: {from}\nUntil: {until} ({remaining} remaining)\nReason: {reason}"
@@ -69,6 +69,6 @@ log:
     disable: "{mod} disabled admin mode"
 
   ban:
-    tempban: "{mod} banned {username} for {duration}: \"{reason}\""
-    ban: "{mod} banned {username} permanently: \"{reason}\""
+    temp: "{mod} banned {username} for {duration}: \"{reason}\""
+    perma: "{mod} banned {username} permanently: \"{reason}\""
     unban: "{mod} unbanned {username}"

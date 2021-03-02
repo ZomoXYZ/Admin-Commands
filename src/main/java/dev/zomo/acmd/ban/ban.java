@@ -2,16 +2,19 @@ package dev.zomo.acmd.ban;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.UUID;
 
 import org.bukkit.OfflinePlayer;
+import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 
 import dev.zomo.MCLang.LangTemplate;
 import dev.zomo.acmd.acmd;
+import dev.zomo.mcpremium.dataType.PlayerLookupData;
 
 public class ban {
     
@@ -92,7 +95,10 @@ public class ban {
             tempbanCache.set(curPath + ".until", 0);
         else
             tempbanCache.set(curPath + ".until", info.until.getTime());
-        tempbanCache.set(curPath + ".mod", info.mod.getUniqueId().toString());
+        if (info.mod == null)
+            tempbanCache.set(curPath + ".mod", "");
+        else
+            tempbanCache.set(curPath + ".mod", info.mod.getUniqueId().toString());
         tempbanCache.set(curPath + ".target", info.target.getUniqueId().toString());
         tempbanCache.set(curPath + ".reason", info.reason);
 
@@ -215,6 +221,56 @@ public class ban {
         }
 
         return 0;
+    }
+
+    public static boolean execute(CommandSender sender, ArrayList<String> args, boolean temp) {
+
+        PlayerLookupData data = acmd.playerParse(null, args, false, true);
+
+        if (data.players.size() == 0)
+            acmd.sendMessage(sender, "general.missingplayer");
+        else {
+
+            OfflinePlayer mod = null;
+
+            if (sender instanceof OfflinePlayer)
+                mod = (OfflinePlayer) sender;
+
+            OfflinePlayer target = data.players.get(0);
+
+            if (data.args.size() > 0) {
+
+                ArrayList<String> argsCopy = data.args;
+
+                long duration = 0;
+                if (temp) {
+                    duration = acmd.timeParse(argsCopy.get(0));
+                    argsCopy.remove(0);
+                }
+                String reason = String.join(" ", argsCopy);
+
+                ban.addBan(duration, (OfflinePlayer) mod, (OfflinePlayer) target, reason);
+
+                LangTemplate template = new LangTemplate()
+                    .add("username", target.getName())
+                    .add("duration", acmd.timeToString(duration))
+                    .add("reason", reason);
+
+                if (temp)
+                    acmd.sendMessage(sender, "ban.temp", template, true);
+                else
+                    acmd.sendMessage(sender, "ban.perma", template, true);
+                // sender.sendMessage(LangTemplate.escapeColors(lang.string("ban.tempban",
+                // template)));
+
+            } else {
+                acmd.sendMessage(sender, "general.missingargs", false);
+                // sender.sendMessage(LangTemplate.escapeColors(lang.string("general.missingargs")));
+            }
+
+        }
+
+        return true;
     }
 
 }

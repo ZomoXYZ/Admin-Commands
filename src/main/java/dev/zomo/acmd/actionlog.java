@@ -48,7 +48,7 @@ public class actionlog {
 
             String time = df.format(new Date());
 
-            FileWriter fw = new FileWriter(logfile);
+            FileWriter fw = new FileWriter(logfile, true);
             bw = new BufferedWriter(fw);
             bw.write("[" + time + "] " + message);//[time] message
             bw.newLine();
