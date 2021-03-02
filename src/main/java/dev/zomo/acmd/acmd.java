@@ -60,7 +60,7 @@ public class acmd extends JavaPlugin {
             PlayerLookupData data = playerParse(null, args, true, true);
 
             if (data.players.size() == 0)
-                sender.sendMessage(LangTemplate.escapeColors(lang.string("general.missingplayer")));
+                sendMessage(sender, "general.missingplayer");
             else {
 
                 Player target = (Player) data.players.get(0);
@@ -73,7 +73,8 @@ public class acmd extends JavaPlugin {
                     .add("target", target.getDisplayName())
                     .add("command", command);
                     
-                sender.sendMessage(LangTemplate.escapeColors(lang.string("fcmd", template)));
+                sendMessage(sender, "fcmd", template, true);
+                //sender.sendMessage(LangTemplate.escapeColors(lang.string("fcmd", template)));
                 
             }
 
@@ -85,7 +86,7 @@ public class acmd extends JavaPlugin {
             PlayerLookupData data = playerParse(sender, args, false, false);
 
             if (data.players.size() == 0)
-                sender.sendMessage(LangTemplate.escapeColors(lang.string("general.missingplayer")));
+                sendMessage(sender, "general.missingplayer");
             else {
 
                 for (OfflinePlayer player : data.players) {
@@ -101,7 +102,8 @@ public class acmd extends JavaPlugin {
                             .add("y", base.getBlockY())
                             .add("z", base.getBlockZ());
 
-                        sender.sendMessage(LangTemplate.escapeColors(lang.string("base", template)));
+                        sendMessage(sender, "base", template, false);
+                        //sender.sendMessage(LangTemplate.escapeColors(lang.string("base", template)));
 
                     }
                 }
@@ -120,9 +122,11 @@ public class acmd extends JavaPlugin {
                 vanish.toggle(player);
 
                 if (vanish.is(player))
-                    sender.sendMessage(LangTemplate.escapeColors(lang.string("vanish.enable")));
+                    //sender.sendMessage(LangTemplate.escapeColors(lang.string("vanish.enable")));
+                    sendMessage(sender, "vanish.enable", true);
                 else
-                    sender.sendMessage(LangTemplate.escapeColors(lang.string("vanish.disable")));
+                    //sender.sendMessage(LangTemplate.escapeColors(lang.string("vanish.disable")));
+                    sendMessage(sender, "vanish.disable", true);
 
             }
 
@@ -138,9 +142,11 @@ public class acmd extends JavaPlugin {
                 player.setAllowFlight(!player.getAllowFlight());
 
                 if (player.getAllowFlight())
-                    sender.sendMessage(LangTemplate.escapeColors(lang.string("fly.enable")));
+                    //sender.sendMessage(LangTemplate.escapeColors(lang.string("fly.enable")));
+                    sendMessage(sender, "fly.enable", true);
                 else
-                    sender.sendMessage(LangTemplate.escapeColors(lang.string("fly.disable")));
+                    //sender.sendMessage(LangTemplate.escapeColors(lang.string("fly.disable")));
+                    sendMessage(sender, "fly.disable", true);
 
             }
 
@@ -156,9 +162,11 @@ public class acmd extends JavaPlugin {
                 player.setInvulnerable(!player.isInvulnerable());
 
                 if (player.isInvulnerable())
-                    sender.sendMessage(LangTemplate.escapeColors(lang.string("god.enable")));
+                    //sender.sendMessage(LangTemplate.escapeColors(lang.string("god.enable")));
+                    sendMessage(sender, "god.enable", true);
                 else
-                    sender.sendMessage(LangTemplate.escapeColors(lang.string("god.disable")));
+                    //sender.sendMessage(LangTemplate.escapeColors(lang.string("god.disable")));
+                    sendMessage(sender, "god.disable", true);
                 
             }
 
@@ -184,7 +192,8 @@ public class acmd extends JavaPlugin {
                 player.teleport(
                         new Location(player.getWorld(), location.getBlockX() + 0.5, yval, location.getBlockZ() + 0.5));
 
-                sender.sendMessage(LangTemplate.escapeColors(lang.string("top")));
+                sendMessage(sender, "top", false);
+                //sender.sendMessage(LangTemplate.escapeColors(lang.string("top")));
 
             }
 
@@ -211,7 +220,8 @@ public class acmd extends JavaPlugin {
                 LangTemplate template = new LangTemplate()
                     .add("speed", String.valueOf(player.getFlySpeed()*10));
 
-                sender.sendMessage(LangTemplate.escapeColors(lang.string("flyspeed." + key, template)));
+                sendMessage(sender, "flyspeed." + key, false);
+                //sender.sendMessage(LangTemplate.escapeColors(lang.string("flyspeed." + key, template)));
             }
 
             return true;
@@ -235,7 +245,8 @@ public class acmd extends JavaPlugin {
                 LangTemplate template = new LangTemplate().add("target", target.getDisplayName()).add("health",
                         String.valueOf(health));
 
-                sender.sendMessage(LangTemplate.escapeColors(lang.string("sethealth", template)));
+                sendMessage(sender, "sethealth", template, true);
+                //sender.sendMessage(LangTemplate.escapeColors(lang.string("sethealth", template)));
 
             }
 
@@ -261,7 +272,8 @@ public class acmd extends JavaPlugin {
                         .add("target", target.getDisplayName())
                         .add("hunger", String.valueOf(hunger));
 
-                    sender.sendMessage(LangTemplate.escapeColors(lang.string("sethunger", template)));
+                    sendMessage(sender, "sethunger", template, true);
+                    //sender.sendMessage(LangTemplate.escapeColors(lang.string("sethunger", template)));
 
                 }
 
@@ -279,13 +291,15 @@ public class acmd extends JavaPlugin {
                 if (adminMode.containsKey(player)) {
                     adminMode.get(player).revertPlayer();
                     adminMode.remove(player);
-                    sender.sendMessage(LangTemplate.escapeColors(lang.string("admin.disable")));
+                    sendMessage(sender, "admin.disable", true);
+                    //sender.sendMessage(LangTemplate.escapeColors(lang.string("admin.disable")));
                 } else {
                     playerSave data = new playerSave(player);
                     adminMode.put(player, data);
                     data.clearPlayer();
                     player.setGameMode(GameMode.CREATIVE);
-                    sender.sendMessage(LangTemplate.escapeColors(lang.string("admin.enable")));
+                    sendMessage(sender, "admin.enable", true);
+                    //sender.sendMessage(LangTemplate.escapeColors(lang.string("admin.enable")));
                 }
 
             }
@@ -298,7 +312,7 @@ public class acmd extends JavaPlugin {
             PlayerLookupData data = playerParse(null, args, false, true);
 
             if (data.players.size() == 0)
-                sender.sendMessage(LangTemplate.escapeColors(lang.string("general.missingplayer")));
+                sendMessage(sender, "general.missingplayer");
             else {
 
                 OfflinePlayer mod = null;
@@ -319,11 +333,13 @@ public class acmd extends JavaPlugin {
                         .add("username", target.getName())
                         .add("duration", timeToString(duration));
 
-                    sender.sendMessage(LangTemplate.escapeColors(lang.string("ban.tempban", template)));
+                    sendMessage(sender, "ban.tempban", template, true);
+                    //sender.sendMessage(LangTemplate.escapeColors(lang.string("ban.tempban", template)));
 
                 } else {
                     //perma ban later
-                    sender.sendMessage(LangTemplate.escapeColors(lang.string("general.missingargs")));
+                    sendMessage(sender, "general.missingargs", false);
+                    //sender.sendMessage(LangTemplate.escapeColors(lang.string("general.missingargs")));
                 }
 
             }
@@ -339,9 +355,11 @@ public class acmd extends JavaPlugin {
                 .add("username", data.players.get(0).getName());
 
             if (ban.removeBan(data.players.get(0).getUniqueId()))
-                sender.sendMessage(LangTemplate.escapeColors(lang.string("ban.unban", template)));
+                sendMessage(sender, "ban.unban", template, true);
+                //sender.sendMessage(LangTemplate.escapeColors(lang.string("ban.unban", template)));
             else
-                sender.sendMessage(LangTemplate.escapeColors(lang.string("ban.notbanned", template)));
+                sendMessage(sender, "ban.notbanned", template, false);
+                //sender.sendMessage(LangTemplate.escapeColors(lang.string("ban.notbanned", template)));
 
             return true;
         }).autocomplete(new dev.zomo.mcpremium.dataType.CommandtabCompleteNameInterface());
@@ -351,7 +369,7 @@ public class acmd extends JavaPlugin {
             PlayerLookupData data = playerParse(null, args, false, true);
 
             if (data.players.size() == 0)
-                sender.sendMessage(LangTemplate.escapeColors(lang.string("general.missingplayer")));
+                sendMessage(sender, "general.missingplayer");
             else if (ban.isBanned(data.players.get(0).getUniqueId()) > 0) {
 
                 BanInfo info = ban.banInfo(data.players.get(0).getUniqueId());
@@ -368,13 +386,15 @@ public class acmd extends JavaPlugin {
                     .add("remaining", timeToString(info.getRemaining()))
                     .add("reason", info.reason);
 
-                sender.sendMessage(LangTemplate.escapeColors(lang.string("ban.baninfo", template)));
+                sendMessage(sender, "ban.baninfo", template, false);
+                //sender.sendMessage(LangTemplate.escapeColors(lang.string("ban.baninfo", template)));
 
             } else {
                 LangTemplate template = new LangTemplate()
                     .add("username", data.players.get(0).getName());
 
-                sender.sendMessage(LangTemplate.escapeColors(lang.string("ban.notbanned", template)));
+                sendMessage(sender, "ban.notbanned", template, false);
+                //sender.sendMessage(LangTemplate.escapeColors(lang.string("ban.notbanned", template)));
             }
 
             return true;
@@ -384,9 +404,25 @@ public class acmd extends JavaPlugin {
 
     public void sendMessage(CommandSender sender, String id, LangTemplate template, boolean shouldLog) {
         if (shouldLog) {
+            String modname = "CONSOLE";
+            if (sender instanceof Player)
+                modname = sender.getName();
+            template.add("mod", modname);
             actionlog.log(LangTemplate.escapeColors(lang.string("log." + id, template), true));
         }
         sender.sendMessage(LangTemplate.escapeColors(lang.string(id, template)));
+    }
+
+    public void sendMessage(CommandSender sender, String id, LangTemplate template) {
+        sendMessage(sender, id, template, false);
+    }
+
+    public void sendMessage(CommandSender sender, String id, boolean shouldLog) {
+        sendMessage(sender, id, new LangTemplate(), shouldLog);
+    }
+
+    public void sendMessage(CommandSender sender, String id) {
+        sendMessage(sender, id, false);
     }
 
     public static PlayerLookupData playerParse(Player defaultTo, ArrayList<String> args, boolean onlineOnly,
