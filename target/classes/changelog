@@ -1,0 +1,13 @@
+ChangeLog
+
+v1.2.0
+    - action log
+v1.1.0
+    - use Minecraft-Premium as tool to look up names
+        - Minecraft-Premium is now a dependency
+        - this allows for searching by name/nick/uuid/discord id
+v1.0.0
+    - initial
+
+todo
+- 

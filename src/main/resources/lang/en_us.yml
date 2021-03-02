@@ -1,0 +1,74 @@
+version: ${project.version} #dont change
+
+general:
+  missingargs: "Invalid arguments"
+  missingplayer: "Unable to find player"
+
+banned:
+  perma: "You have been banned permanently\n&c{reason}"
+  temp: "You have been temporarily banned, {remaining} remaining\n&c{reason}"
+
+fcmd: "Forced {target} to run command &l&8/{command}&r"
+
+base: "Spawn location of {target} is &c&l[&r&c{x} {y} {z}&l]&r"
+
+vanish:
+  enable: "Enabled Vanish"
+  disable: "Disabled Vanish"
+
+fly:
+  enable: "Enabled Fly mode"
+  disable: "Disabled Fly mode"
+
+god:
+  enable: "Enabled God mode"
+  disable: "Disabled God mode"
+
+top: "Teleported to top"
+
+flyspeed:
+  get: "Current fly speed is {speed}"
+  set: "Set fly speed to {speed}"
+
+sethealth: "Set the health of {target} to {health}"
+
+sethunger: "Set the hunger of {target} to {hunger}"
+
+admin:
+  enable: "Enabled Admin mode"
+  disable: "Disabled Admin mode"
+
+ban:
+  tempban: "Banned {username} for {duration}"
+  ban: "Banned {username} permanently"
+  unban: "Unbanned {username}"
+  notbanned: "{username} is not banned"
+  baninfo: "Target: {target}\nMod: {mod}\nFrom: {from}\nUntil: {until} ({remaining} remaining)\nReason: {reason}"
+
+log:
+  fcmd: "{mod} forced {target} to run command /{command}"
+
+  vanish:
+    enable: "{mod} enabled vanish"
+    disable: "{mod} disabled vanish"
+
+  fly:
+    enable: "{mod} enabled fly mode"
+    disable: "{mod} disabled fly mode"
+
+  god:
+    enable: "{mod} enabled god mode"
+    disable: "{mod} disabled god mode"
+
+  sethealth: "{mod} set the health of {target} to {health}"
+
+  sethunger: "{mod} set the hunger of {target} to {hunger}"
+
+  admin:
+    enable: "{mod} enabled admin mode"
+    disable: "{mod} disabled admin mode"
+
+  ban:
+    tempban: "{mod} banned {username} for {duration}: \"{reason}\""
+    ban: "{mod} banned {username} permanently: \"{reason}\""
+    unban: "{mod} unbanned {username}"
