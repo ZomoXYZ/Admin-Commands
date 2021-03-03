@@ -8,7 +8,7 @@ A collection of useful **admin** commands and tools for Minecraft servers
 
 [Minecraft-Premium](https://github.com/ZomoXYZ/MCLang), [MCLang](https://github.com/ZomoXYZ/MCLang), and [MCCommands](https://github.com/ZomoXYZ/MCCommands) are required libraries
 
-Running the `build.sh` file will both compile and install Minecraft-Premium into your local repository
+Running the `build.sh` file will compile Admin-Commands
 
 `build.sh` will also automatically create a server in your `~/.papermc/` directory
 
