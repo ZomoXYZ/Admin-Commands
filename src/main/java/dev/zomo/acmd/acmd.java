@@ -93,23 +93,23 @@ public class acmd extends JavaPlugin {
                 sendMessage(sender, "general.missingplayer");
             else {
 
-                for (OfflinePlayer player : data.players) {
-                    if (player instanceof Player) {
+                for (OfflinePlayer target : data.players) {
 
-                        Player target = (Player) player;
+                    Location base = target.getBedSpawnLocation();
 
-                        Location base = target.getBedSpawnLocation();
+                    String displayName = target.getName();
 
-                        LangTemplate template = new LangTemplate()
-                            .add("target", target.getDisplayName())
-                            .add("x", base.getBlockX())
-                            .add("y", base.getBlockY())
-                            .add("z", base.getBlockZ());
+                    if (target instanceof Player)
+                        displayName = ((Player) target).getDisplayName();
 
-                        sendMessage(sender, "base", template, false);
-                        //sender.sendMessage(LangTemplate.escapeColors(lang.string("base", template)));
+                    LangTemplate template = new LangTemplate()
+                        .add("target", displayName)
+                        .add("x", base.getBlockX())
+                        .add("y", base.getBlockY())
+                        .add("z", base.getBlockZ());
 
-                    }
+                    sendMessage(sender, "base", template, false);
+                    //sender.sendMessage(LangTemplate.escapeColors(lang.string("base", template)));
                 }
 
             }
