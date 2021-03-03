@@ -1,5 +1,9 @@
 ChangeLog
 
+v1.2.2
+    - back command
+    - freeze command
+    - right click to unstrip stripped log
 v1.2.1
     - finished permanent ban implementation
 v1.2.0
@@ -12,4 +16,6 @@ v1.0.0
     - initial
 
 todo
-- 
+- back command
+- freeze command
+- right click stripped log to unstrip

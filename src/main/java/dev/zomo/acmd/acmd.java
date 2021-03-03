@@ -21,6 +21,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import dev.zomo.MCCommands.CommandMain;
 import dev.zomo.MCLang.Lang;
 import dev.zomo.MCLang.LangTemplate;
+import dev.zomo.acmd.back.back;
 import dev.zomo.acmd.ban.BanInfo;
 import dev.zomo.acmd.ban.ban;
 import dev.zomo.mcpremium.dataType.PlayerLookupData;
@@ -51,6 +52,9 @@ public class acmd extends JavaPlugin {
         ban.enable();
 
         getServer().getPluginManager().registerEvents(new dev.zomo.acmd.ban.events(), this);
+        getServer().getPluginManager().registerEvents(new dev.zomo.acmd.back.events(), this);
+        getServer().getPluginManager().registerEvents(new freeze(), this);
+        getServer().getPluginManager().registerEvents(new dev.zomo.acmd.strippedlog(), this);
 
         for (int i = 0; i < TIMETYPES.length && i < TIMELENGTHS.length; i++)
             TimeLengths.put(TIMETYPES[i], TIMELENGTHS[i]);
@@ -231,7 +235,7 @@ public class acmd extends JavaPlugin {
 
             PlayerLookupData data = playerParse(sender, args);
 
-            if (data.players.size() > 0) {
+            if (data.players.size() > 0 && data.args.size() > 0) {
 
                 Player target = (Player) data.players.get(0);
 
@@ -257,13 +261,13 @@ public class acmd extends JavaPlugin {
 
             PlayerLookupData data = playerParse(sender, args);
 
-            if (data.players.size() > 0) {
+            if (data.players.size() > 0 && data.args.size() > 0) {
 
                 Player target = (Player) data.players.get(0);
 
                 if (target != null) {
 
-                    int hunger = Integer.valueOf(data.args.get(1));
+                    int hunger = Integer.valueOf(data.args.get(0));
                     hunger = Math.max(0, Math.min(20, hunger));
 
                     target.setFoodLevel(hunger);
@@ -274,6 +278,72 @@ public class acmd extends JavaPlugin {
 
                     sendMessage(sender, "sethunger", template, true);
                     //sender.sendMessage(LangTemplate.escapeColors(lang.string("sethunger", template)));
+
+                }
+
+            }
+
+            return true;
+        }).autocomplete(new dev.zomo.mcpremium.dataType.CommandtabCompleteNameInterface());
+
+        new CommandMain(getCommand("freeze"), (CommandSender sender, ArrayList<String> args) -> {
+
+            PlayerLookupData data = playerParse(sender, args, true, false);
+
+            if (data.players.size() > 0) {
+
+                int mode = 0;
+                
+                if (data.args.size() > 0) {
+                    if (data.args.get(0).toLowerCase().equals("y"))
+                        mode = 1;
+                    else if (data.args.get(0).toLowerCase().equals("n"))
+                        mode = 2;
+                }
+
+                for (OfflinePlayer otarget : data.players) {
+                    Player target = (Player) otarget;
+
+                    switch(mode) {
+                        case 0:
+                            freeze.toggle(target);
+                            break;
+                        case 1:
+                            freeze.add(target);
+                            break;
+                        case 2:
+                            freeze.remove(target);
+                    }
+
+                    LangTemplate template = new LangTemplate()
+                        .add("target", target.getName());
+
+                    if (freeze.is(target))
+                        sendMessage(sender, "freeze.enable", template, true);
+                    else
+                        sendMessage(sender, "freeze.disable", template, true);
+
+                }
+
+            }
+
+            return true;
+        }).autocomplete(new dev.zomo.mcpremium.dataType.CommandtabCompleteNameInterface());
+
+        new CommandMain(getCommand("frozen"), (CommandSender sender, ArrayList<String> args) -> {
+
+            PlayerLookupData data = playerParse(sender, args, true, false);
+
+            if (data.players.size() > 0) {
+
+                for (OfflinePlayer otarget : data.players) {
+                    Player target = (Player) otarget;
+
+                    LangTemplate template = new LangTemplate()
+                        .add("target", target.getName())
+                        .add("frozen", freeze.is(target));
+
+                    sendMessage(sender, "frozen", template, true);
 
                 }
 
@@ -307,6 +377,21 @@ public class acmd extends JavaPlugin {
             return true;
         });
 
+        new CommandMain(getCommand("back"), (CommandSender sender, ArrayList<String> args) -> {
+
+            if (sender instanceof Player) {
+
+                Player player = (Player) sender;
+
+                back.sendBack(player);
+
+                sendMessage(sender, "back", false);
+
+            }
+
+            return true;
+        });
+
         new CommandMain(getCommand("tempban"), (CommandSender sender, ArrayList<String> args) -> {
             return ban.execute(sender, args, true);
         }).autocomplete(new dev.zomo.mcpremium.dataType.CommandtabCompleteNameInterface());
@@ -319,15 +404,21 @@ public class acmd extends JavaPlugin {
 
             PlayerLookupData data = playerParse(null, args, false, true);
 
-            LangTemplate template = new LangTemplate()
-                .add("username", data.players.get(0).getName());
+            if (data.players.size() == 0)
+                sendMessage(sender, "general.missingplayer");
+            else {
 
-            if (ban.removeBan(data.players.get(0).getUniqueId()))
-                sendMessage(sender, "ban.unban", template, true);
-                //sender.sendMessage(LangTemplate.escapeColors(lang.string("ban.unban", template)));
-            else
-                sendMessage(sender, "ban.notbanned", template, false);
-                //sender.sendMessage(LangTemplate.escapeColors(lang.string("ban.notbanned", template)));
+                LangTemplate template = new LangTemplate()
+                    .add("username", data.players.get(0).getName());
+
+                if (ban.removeBan(data.players.get(0).getUniqueId()))
+                    sendMessage(sender, "ban.unban", template, true);
+                    //sender.sendMessage(LangTemplate.escapeColors(lang.string("ban.unban", template)));
+                else
+                    sendMessage(sender, "ban.notbanned", template, false);
+                    //sender.sendMessage(LangTemplate.escapeColors(lang.string("ban.notbanned", template)));
+
+            }
 
             return true;
         }).autocomplete(new dev.zomo.mcpremium.dataType.CommandtabCompleteNameInterface());

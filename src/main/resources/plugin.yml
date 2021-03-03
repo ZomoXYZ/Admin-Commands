@@ -46,9 +46,21 @@ commands:
     description: set hunger level
     permission: fcmd.hunger
     usage: /<command> <target> <hunger>
+  freeze:
+    description: toggle freeze
+    permission: fcmd.freeze
+    usage: /<command> <target> [y|n]
+  frozen:
+    description: get freeze status
+    permission: fcmd.freeze
+    usage: /<command> <target>
   admin:
     description: toggle admin mode
     permission: fcmd.admin
+    usage: /<command>
+  back:
+    description: go back
+    permission: fcmd.back
     usage: /<command>
   ban:
     description: ban someone
@@ -82,7 +94,9 @@ permissions:
       fcmd.flyspeed: true
       fcmd.health: true
       fcmd.hunger: true
+      fcmd.freeze: true
       fcmd.admin: true
+      fcmd.back: true
       fcmd.ban: true
   acmd.fcmd:
     description: Allows access to /fcmd command
@@ -114,9 +128,15 @@ permissions:
   fcmd.hunger:
     description: Allows access to /sethunger command
     default: false
+  fcmd.freeze:
+    description: Allows access to /freeze and /frozen commands
+    default: false
   fcmd.admin:
     description: Allows access to /admin command
     default: false
+  fcmd.back:
+    description: Allows access to /back command
+    default: false
   fcmd.ban:
-    description: Allows access to /ban and /tempban commands
+    description: Allows access to /ban, /tempban, /baninfo, and /unban commands
     default: false

@@ -34,9 +34,17 @@ sethealth: "Set the health of {target} to {health}"
 
 sethunger: "Set the hunger of {target} to {hunger}"
 
+freeze:
+  enable: "Froze {target}"
+  disable: "Unfroze {target}"
+
+frozen: "{target} is {frozen?:not }frozen"
+
 admin:
   enable: "Enabled Admin mode"
   disable: "Disabled Admin mode"
+
+back: "Teleported back"
 
 ban:
   temp: "Banned {username} for {duration}"
@@ -63,6 +71,10 @@ log:
   sethealth: "{mod} set the health of {target} to {health}"
 
   sethunger: "{mod} set the hunger of {target} to {hunger}"
+
+  freeze:
+    enable: "{mod} froze {target}"
+    disable: "{mod} unfroze {target}"
 
   admin:
     enable: "{mod} enabled admin mode"
